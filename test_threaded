@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+start_total=$(date +%s.%N)
+parallel -j $(nproc) '
+zstd -19 page.html 2>/dev/null
+rm page.html.zst 2>/dev/null' ::: $(seq 1 $(nproc))
+
+end_total=$(date +%s.%N)
+echo $(bc <<< "scale=3; $end_total - $start_total")
