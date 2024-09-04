@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+start_total=$(date +%s.%N)
+for i in {1..3}; do
+  start_loop_time=$(date +%s.%N)
+  zstd -T12 -19 page.html 2>/dev/null
+  rm page.html.zst
+  end_loop_time=$(date +%s.%N)
+  elapsed_time=$(bc <<< "scale=3; $end_loop_time - $start_loop_time")
+  echo "compressing $i, time took: $elapsed_time seconds"
+done
+end_total=$(date +%s.%N)
+echo $(bc <<< "scale=3; $end_total - $start_total")
